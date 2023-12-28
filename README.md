@@ -32,7 +32,11 @@
 - Chloe Renae & Edmar Lozada
 ### Facebook Contact:
 - https://www.facebook.com/chloe.renae.2000
+### RealTalk:
+- kung naka tulong kami at gamit ninyo script namin,
+  magpa gcash naman kayo sa amin kahit kunti lang!
 
+### Follow these steps:
 #### Step 1: Copy script below and paste to mikrotik terminal. ( JuanFi Scripts )
 note: Needed JuanFi Functions for onLogin/onLogout
 ```bash
