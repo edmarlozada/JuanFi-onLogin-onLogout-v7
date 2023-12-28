@@ -30,7 +30,7 @@ WARNING:
 ### Facebook Contact:
 - https://www.facebook.com/chloe.renae.2000
 
-### Step 1: Copy script below and paste to mikrotik terminal. ( needed functions )
+#### Step 1: Copy script below and paste to mikrotik terminal. ( needed functions )
 
 ```bash
 # ==============================
