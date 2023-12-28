@@ -5,7 +5,7 @@
 - it uses a powerful system scripting function!
 - totally different kind of Login/Logout script!
 
-What's in v7 (2023-12-01)
+What's in v7 (2023-12-28)
 - uses user-email to check valid entry! { NEW }
 - System Scheduler on Event minimize! { NEW }
 - Not Compatible with JuanFi Manager APK { important }
