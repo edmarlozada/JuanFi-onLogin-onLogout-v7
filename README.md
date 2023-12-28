@@ -5,7 +5,7 @@
 - it uses a powerful system scripting function!
 - totally different kind of Login/Logout script!
 
-What's in v7 (2023-12-28)
+#### What's in v7 (2023-12-29)
 - uses user-email to check valid entry! { NEW }
 - System Scheduler on Event minimize! { NEW }
 - Not Compatible with JuanFi Manager APK { important }
@@ -21,17 +21,17 @@ What's in v7 (2023-12-28)
 - sales update functionalize ( full/normal )
 - telegram reporting ( full/normal )
 
-WARNING:
+#### WARNING:
 - test first before deploy!
 
-### Author:
+#### Author:
 - Chloe Renae & Edmar Lozada
 
-### Facebook Contact:
+#### Facebook Contact:
 - https://www.facebook.com/chloe.renae.2000
 
-#### Step 1: Copy script below and paste to mikrotik terminal. ( needed functions )
-
+#### Step 1: Copy script below and paste to mikrotik terminal. ( JuanFi Scripts )
+note: Needed JuanFi Functions for onLogin/onLogout
 ```bash
 # ==============================
 # Miktrotik JuanFi Scripts
@@ -124,14 +124,40 @@ if ([/system script find name="ss-$sName"]="") do={/system script add name="ss-$
 
 ```
 
-### Step 2: Copy script below and paste to hotspot user profile onLogin. ( onLogin Script )
-
+#### Step 2: Copy script below and paste to mikrotik terminal. ( System Scripts )
+note: Needed System Functions for onLogin/onLogout
 ```bash
 comming soon!
 ```
 
-### Step 3: Copy script below and paste to hotspot user profile onLogout. ( onLogout Script )
-
+#### Step 3: Copy script below and paste to hotspot user profile onLogin. ( onLogin Script )
 ```bash
 comming soon!
+```
+
+#### Step 4: Copy script below and paste to hotspot user profile onLogout. ( onLogout Script )
+```bash
+# juanfi_hs_onLogout_72a_full
+# by: Chloe Renae & Edmar Lozada
+# ------------------------------
+
+# Expire User
+local iUser $username
+local aUser [/ip hotspot user get $iUser]
+local iUsrTime ($aUser->"limit-uptime")
+local iUseTime ($aUser->"uptime")
+
+# Check Expiration
+do {
+if ($cause="traffic limit reached" || ($iUsrTime>0 && $iUsrTime<=$iUseTime)) do={
+  local iDMac $"mac-address"
+  local iDInt $interface
+  local iHotSpot [/ip hotspot profile get [.. get [find interface=$iDInt] profile] html-directory]
+  local eReplace [parse [/system script get ss-eReplaceChr source]]
+  local iMacFile [$eReplace $iDMac ":" ""]
+  local eUserExpire [parse [/system script get ss-1Fi-eUserExpire source]]
+  $eUserExpire $iUser $iDMac $iMacFile $iHotSpot
+}
+} on-error={log error "( $iUser ) ONLOGOUT ERROR! Expire User Module"}
+
 ```
