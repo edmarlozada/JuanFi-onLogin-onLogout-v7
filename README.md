@@ -22,15 +22,14 @@
 - auto create sales files if missing ( full )
 - sales update functionalize ( full/normal )
 - telegram reporting ( full/normal )
-#### Tested On:
+### Tested On:
 - hEX GR3 7.12.1 Stable
 - CCR1009 6.49.10 Long Term
 - RB5009 7.8 Long Term
-#### WARNING:
+### WARNING:
 - test first before deploy!
-#### Author:
+### Author:
 - Chloe Renae & Edmar Lozada
-
 #### Facebook Contact:
 - https://www.facebook.com/chloe.renae.2000
 
