@@ -4,7 +4,7 @@
 - not recommended for beginners!
 - it uses a powerful system scripting functions!
 - totally different kind of login/logout scripts!
-#### What's in v7 (2023-12-29)
+### What's in v7 (2023-12-29)
 - not compatible with JuanFi Manager APK { important }
 - uses user-email to check valid entry! { NEW }
 - cancel user=login if invalid user email/profile! { NEW }
@@ -30,6 +30,7 @@
 - test first before deploy!
 #### Author:
 - Chloe Renae & Edmar Lozada
+
 #### Facebook Contact:
 - https://www.facebook.com/chloe.renae.2000
 
