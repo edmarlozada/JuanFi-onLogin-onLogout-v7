@@ -8,15 +8,15 @@
 #### What's in v7 (2023-12-29)
 - not compatible with JuanFi Manager APK { important }
 - uses user-email to check valid entry! { NEW }
-- logout/reject invalid user email/profile! { NEW }
-- logout/reject invalid user comment! { NEW }
+- cancel user=login if invalid user email/profile! { NEW }
+- cancel user-login if invalid user comment! { NEW }
 - dual data-file created (mac/user) if mac!=user! { NEW }
-- system scheduler on-event minimize! { NEW }
+- system scheduler on-event minimize/functionalize! { NEW }
 - fix error on "0" validity ( full/normal/lite )
 - user comment details added ( full/normal )
-- create logs for full report for monitoring ( full/normal )
+- create logs for full reporting/monitoring ( full/normal )
 - user scheduler is created first ( full/normal/lite )
-- cancel user login if scheduler not created ( full/normal )
+- cancel user-login if scheduler not created ( full/normal )
 - create logs for AddNew/Extend user ( full/normal )
 - extend code is used ( full/normal/lite )
 - auto create data folder if missing ( full )
@@ -127,20 +127,14 @@ if ([/system script find name="ss-$sName"]="") do={/system script add name="ss-$
 
 ```
 
-#### Step 2: Copy script below and paste to mikrotik terminal. ( System Scripts )
-note: Needed System Functions for onLogin/onLogout
+#### Step 2: Copy script below and paste to hotspot user profile onLogin. ( onLogin Script )
 ```bash
 comming soon!
 ```
 
-#### Step 3: Copy script below and paste to hotspot user profile onLogin. ( onLogin Script )
+#### Step 3: Copy script below and paste to hotspot user profile onLogout. ( onLogout Script )
 ```bash
-comming soon!
-```
-
-#### Step 4: Copy script below and paste to hotspot user profile onLogout. ( onLogout Script )
-```bash
-# juanfi_hs_onLogout_72a_full
+# juanfi_hs_onLogout_71a_full
 # by: Chloe Renae & Edmar Lozada
 # ------------------------------
 
@@ -156,8 +150,12 @@ if ($cause="traffic limit reached" || ($iUsrTime>0 && $iUsrTime<=$iUseTime)) do=
   local iDMac $"mac-address"
   local iDInt $interface
   local iHotSpot [/ip hotspot profile get [.. get [find interface=$iDInt] profile] html-directory]
-  local eReplace [parse [/system script get ss-eReplaceChr source]]
-  local iMacFile [$eReplace $iDMac ":" ""]
+  local iMacFile ""
+  for i from=0 to=([len $iDMac]-1) do={
+    local x [pick $iDMac $i]
+    if ($x=":") do={set x ""}
+    set iMacFile ($iMacFile.$x)
+  }
   local eUserExpire [parse [/system script get ss-1Fi-eUserExpire source]]
   $eUserExpire $iUser $iDMac $iMacFile $iHotSpot
 }
