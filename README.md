@@ -1,14 +1,14 @@
 # JuanFi onLogin/onLogout v7
-- Only for Advance Users!
-- Not recommended for Beginners!
-- It uses a powerful system scripting function!
-- Totally different kind of Login/Logout script!
+- no need to define hotspot folder! (copyright)
+- only for advance users!
+- not recommended for beginners!
+- it uses a powerful system scripting function!
+- totally different kind of Login/Logout script!
 
 What's in v7 (2023-12-01)
 - uses user-email to check valid entry! { NEW }
 - System Scheduler on Event minimize! { NEW }
 - Not Compatible with JuanFi Manager APK { important }
-- no need to define hotspot folder! { important }
 - fix error on "0" validity ( full/normal/lite )
 - user comment details added ( full/normal )
 - create logs for full report for monitoring ( full/normal )
