@@ -38,7 +38,6 @@ WARNING:
 # by: Chloe Renae & Edmar Lozada
 # ==============================
 
-
 { local sName "1Fi-eUserExpire"
   local sSource "# $sName #\r
 # by: Chloe Renae & Edmar Lozada\r
