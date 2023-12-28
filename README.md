@@ -69,7 +69,6 @@ if ([/system script find name="ss-$sName"]="") do={/system script add name="ss-$
 /system script set [find name="ss-$sName"] source=$sSource owner="juanfi function" comment="( function_juanfi-01: $sName )"
 }
 
-
 { local sName "1Fi-eAddDatFiles"
   local sSource "# $sName #\r
 # by: Chloe Renae & Edmar Lozada\r
@@ -97,7 +96,6 @@ if ([/file find name=\"\$iHotSpot/data/\$iDatFile.txt\"]!=\"\") do={
 if ([/system script find name="ss-$sName"]="") do={/system script add name="ss-$sName"}
 /system script set [find name="ss-$sName"] source=$sSource owner="juanfi function" comment="( function_juanfi-02: $sName )"
 }
-
 
 { local sName "1Fi-eAddSales"
   local sSource "# $sName #\r
