@@ -127,9 +127,11 @@ if ([/system script find name="ss-$sName"]="") do={/system script add name="ss-$
 ### Step 2: Copy script below and paste to hotspot user profile onLogin. ( onLogin Script )
 
 ```bash
+comming soon!
 ```
 
 ### Step 3: Copy script below and paste to hotspot user profile onLogout. ( onLogout Script )
 
 ```bash
+comming soon!
 ```
