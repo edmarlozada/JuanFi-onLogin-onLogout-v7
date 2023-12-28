@@ -24,8 +24,8 @@
 - telegram reporting ( full/normal )
 ### Tested On:
 - hEX GR3 7.12.1 Stable
-- CCR1009 6.49.10 Long Term
 - RB5009 7.8 Long Term
+- CCR1009 6.49.10 Long Term
 ### WARNING:
 - test first before deploy!
 ### Author:
