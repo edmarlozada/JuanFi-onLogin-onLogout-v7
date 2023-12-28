@@ -2,13 +2,16 @@
 - no need to define hotspot folder! (copyright)
 - only for advance users!
 - not recommended for beginners!
-- it uses a powerful system scripting function!
-- totally different kind of Login/Logout script!
+- it uses a powerful system scripting functions!
+- totally different kind of Login/Logout scripts!
 
 #### What's in v7 (2023-12-29)
+- not compatible with JuanFi Manager APK { important }
 - uses user-email to check valid entry! { NEW }
-- System Scheduler on Event minimize! { NEW }
-- Not Compatible with JuanFi Manager APK { important }
+- logout/reject invalid user email/profile! { NEW }
+- logout/reject invalid user comment! { NEW }
+- dual data-file created (mac/user) if mac!=user! { NEW }
+- system scheduler on-event minimize! { NEW }
 - fix error on "0" validity ( full/normal/lite )
 - user comment details added ( full/normal )
 - create logs for full report for monitoring ( full/normal )
