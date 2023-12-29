@@ -254,7 +254,7 @@ if ($iMail~"new" || $iMail~"extend") do={
   # EXTEND USER
   if ($iExtUCode=1) do={ set iExtUCode "EXTEND USER" }
 
-  # Update User
+  # Update User Interval/Comment/eMail
   do {
   log warning "$iExtUCode ( $interface ) => user=[$iUser] mac=[$iDMac] usertime=[$iUsrTime] amt=[$iSalesAmt]"
   set iValidity ($iValidity + [/system scheduler get [find name=$iUser] interval])
