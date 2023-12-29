@@ -49,7 +49,7 @@
 - kung naka tulong kami at gamit ninyo script namin,
   magpa gcash naman kayo sa amin kahit kunti lang!
 
-### V7.2a:
+### v7.2a:
 - v7.2a is more advance/detailed, only for my gcash customers.
 
 ### Follow these steps:
