@@ -25,15 +25,15 @@
 - sales update functionalize ( full/normal )
 - telegram reporting ( full/normal )
 
-### Tested On:
-- hEX GR3 7.12.1 Stable
-- RB5009 7.8 Long Term
-- CCR1009 6.49.10 Long Term
-
 ### Transistion/Migration:
 - The new onLogin/onLogout v7 script will take effect on new users.
 - Old active users will still use the old scheduler script.
 - Just leave those old active users as-is until they expire!
+
+### Tested On:
+- hEX GR3 7.12.1 Stable
+- RB5009 7.8 Long Term
+- CCR1009 6.49.10 Long Term
 
 ### WARNING:
 - test first before deploy!
