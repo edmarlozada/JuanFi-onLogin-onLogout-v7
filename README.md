@@ -1,4 +1,4 @@
-# JuanFi onLogin/onLogout v7
+# JuanFi onLogin/onLogout v7.1a
 - no need to define hotspot folder! (copyright)
 - not recommended for beginners!
 - for advance users only!
@@ -48,6 +48,9 @@
 ### RealTalk:
 - kung naka tulong kami at gamit ninyo script namin,
   magpa gcash naman kayo sa amin kahit kunti lang!
+
+### V7.2a:
+- v7.2a is more advance/detailed, only for my gcash customers.
 
 ### Follow these steps:
 
@@ -265,7 +268,7 @@ if ($iMail~"new" || $iMail~"extend") do={
   /ip hotspot user set [find name=$iUser] email="$iSalesAmt@juanfi.$iMacFile.active"
   } on-error={log error "( $iUser ) ONLOGIN ERROR! Update User Module"}
 
-  # Set Time Variables
+  # Set User Date/Time Variables
   local eGetDate [parse [/system script get ss-eGetDateTime source]]
   local iDateBeg [/system scheduler get [find name=$iUser] start-date]
   local iTimeBeg [/system scheduler get [find name=$iUser] start-time]
