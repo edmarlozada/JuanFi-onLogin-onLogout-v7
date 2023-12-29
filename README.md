@@ -6,8 +6,8 @@
 - totally different kind of login/logout scripts!
 
 ### What's in v7 (2023-12-29)
-- would cause conflict with the other brownout script! { important }
 - not compatible with JuanFi Manager APK! { important }
+- would cause conflict if using the other brownout script! { important }
 - uses user-email to check valid entry! { NEW }
 - cancel user-login if invalid user email/profile! { NEW }
 - cancel user-login if invalid user comment! { NEW }
@@ -26,11 +26,12 @@
 - telegram reporting ( full/normal )
 
 ### Transistion/Migration:
-- The new onLogin/onLogout v7 script will take effect on new users.
-- Old active users will still use the old scheduler script.
-- Just leave those old active users as-is until they expire!
+- the new onLogin/onLogout v7 script will take effect on new users.
+- old active users will still use the old scheduler script.
+- just leave those old active users as-is until they expire!
 
 ### Tested On:
+- hAP Lite 6.48.7 Stable
 - hEX GR3 7.12.1 Stable
 - RB5009 7.8 Long Term
 - CCR1009 6.49.10 Long Term
