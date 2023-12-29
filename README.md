@@ -4,10 +4,12 @@
 - not recommended for beginners!
 - it uses a powerful system scripting functions!
 - totally different kind of login/logout scripts!
+
 ### What's in v7 (2023-12-29)
-- not compatible with JuanFi Manager APK { important }
+- would cause conflict with the other brownout script! { important }
+- not compatible with JuanFi Manager APK! { important }
 - uses user-email to check valid entry! { NEW }
-- cancel user=login if invalid user email/profile! { NEW }
+- cancel user-login if invalid user email/profile! { NEW }
 - cancel user-login if invalid user comment! { NEW }
 - dual data-file created (mac/user) if mac!=user! { NEW }
 - system scheduler on-event minimize/functionalize! { NEW }
@@ -22,16 +24,21 @@
 - auto create sales files if missing ( full )
 - sales update functionalize ( full/normal )
 - telegram reporting ( full/normal )
+
 ### Tested On:
 - hEX GR3 7.12.1 Stable
 - RB5009 7.8 Long Term
 - CCR1009 6.49.10 Long Term
+
 ### WARNING:
 - test first before deploy!
+
 ### Author:
 - Chloe Renae & Edmar Lozada
+
 ### Facebook Contact:
 - https://www.facebook.com/chloe.renae.2000
+
 ### RealTalk:
 - kung naka tulong kami at gamit ninyo script namin,
   magpa gcash naman kayo sa amin kahit kunti lang!
