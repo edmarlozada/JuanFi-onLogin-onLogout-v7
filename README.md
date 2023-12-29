@@ -13,13 +13,13 @@
 - cancel user-login if invalid user comment! { NEW }
 - dual data-file created (mac/user) if mac!=user! { NEW }
 - system scheduler on-event minimize/functionalize! { NEW }
-- fix error on "0" validity ( full/normal/lite )
-- user comment details added ( full/normal )
-- create logs for full reporting/monitoring ( full/normal )
 - user scheduler is created first ( full/normal/lite )
 - cancel user-login if scheduler not created ( full/normal )
+- fix validity if validity<user-time ( full/normal/lite )
+- extend code is used for log purposes ( full/normal/lite )
 - create logs for AddNew/Extend user ( full/normal )
-- extend code is used ( full/normal/lite )
+- create logs for report/error monitoring ( full/normal )
+- user comment details are added ( full/normal )
 - auto create data folder if missing ( full )
 - auto create sales files if missing ( full )
 - sales update functionalize ( full/normal )
