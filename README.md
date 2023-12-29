@@ -1,7 +1,7 @@
 # JuanFi onLogin/onLogout v7
 - no need to define hotspot folder! (copyright)
-- only for advance users!
 - not recommended for beginners!
+- for advance users only!
 - it uses a powerful system scripting functions!
 - totally different kind of login/logout scripts!
 
