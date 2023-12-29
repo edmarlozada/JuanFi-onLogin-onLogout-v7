@@ -30,6 +30,11 @@
 - RB5009 7.8 Long Term
 - CCR1009 6.49.10 Long Term
 
+### Transistion/Migration:
+- The new onLogin/onLogout v7 script will take effect on new users.
+- Old active users will still use the old scheduler script.
+- Just leave those old active users as-is until they expire!
+
 ### WARNING:
 - test first before deploy!
 
@@ -44,6 +49,7 @@
   magpa gcash naman kayo sa amin kahit kunti lang!
 
 ### Follow these steps:
+
 #### Step 1: Copy script below and paste to mikrotik terminal. ( JuanFi Scripts )
 note: Needed JuanFi Functions for onLogin/onLogout
 ```bash
