@@ -211,7 +211,7 @@ if ($iMail~"new" || $iMail~"extend") do={
   local iVendoNme ($aNote->3)
   # Cancel user-login if Invalid Comment
   if (!($iValidity>=0 && $iSalesAmt>=0 && ($iExtUCode=0 or $iExtUCode=1))) do={
-    log error "( $iUser ) ONLOGIN ERROR! val:[$iValidity] amt:[$iSalesAmt] ext:[$iExtUCode] => INVALID COMMENT!"
+    log error "( $iUser ) ONLOGIN ERROR! comment:[$aNote] => INVALID COMMENT!"
     /ip hotspot user set [find name=$iUser] disable=yes
     $eLogoutUser iUser=$iUser iDMac=$iDMac; return 0
   }
