@@ -55,7 +55,7 @@
 
 ### Follow these steps:
 
-#### Step 1: Copy script below and paste to mikrotik terminal. ( juanfi_hs_full_v71_script.txt )
+#### Step 1: Copy script below and paste to mikrotik terminal. ( juanfi_hs_full_v71a_script.txt )
 note: Needed JuanFi Functions use by onLogin/onLogout
 ```bash
 # ==============================
