@@ -253,7 +253,8 @@ if ($iMail~"new" || $iMail~"extend") do={
   # Update User Validity/Interval/Comment/eMail
   if ($iExtUCode=0) do={ set iExtUCode "ADDNEW USER" }
   if ($iExtUCode=1) do={ set iExtUCode "EXTEND USER" }
-  log warning "$iExtUCode ( $interface ) => user=[$iUser] mac=[$iDMac] usertime=[$iUsrTime] amt=[$iSalesAmt]"
+  local xUsrTime $iUsrTime; if ([len $iUsrTime]=0) do={ set xUsrTime "nolimit" }
+  log warning "$iExtUCode ( $interface ) => user=[$iUser] mac=[$iDMac] usertime=[$xUsrTime] amt=[$iSalesAmt]"
   set iValidity ($iValidity + [/system scheduler get [find name=$iUser] interval])
   # if ($iValidity = 0s and $iUsrTime > 1d) do={ set iValidity $iUsrTime }; # BUG FIX (temporary)
   if ($iValidity != 0s and $iValidity < $iUsrTime) do={ set iValidity ($iUsrTime + $iValidity) }; # BUG FIX
@@ -300,7 +301,7 @@ if ($iMail~"new" || $iMail~"extend") do={
                     "Device: $iDevName%0A".\
                     "Active Users: $iUActive%0A%0A".\
                     "Vendo Name : $iVendoNme%0A".\
-                    "User Time  : $iUsrTime%0A".\
+                    "User Time  : $xUsrTime%0A".\
                     "Beg: $iUsrBeg0%0A".\
                     "End: $iUsrEnd0%0A".\
                     "Sale Amount: $iSalesAmt%0A".\
