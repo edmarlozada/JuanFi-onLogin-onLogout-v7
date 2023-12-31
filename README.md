@@ -55,7 +55,7 @@
 
 ### Follow these steps:
 
-#### Step 1: Copy script below and paste to mikrotik terminal. ( JuanFi Scripts )
+#### Step 1: Copy script below and paste to mikrotik terminal. ( juanfi_hs_full_v71_script.txt )
 note: Needed JuanFi Functions use by onLogin/onLogout
 ```bash
 # ==============================
@@ -179,7 +179,7 @@ if ([/system script find name="ss-$sName"]="") do={/system script add name="ss-$
 
 ```
 
-#### Step 2: Copy script below and paste to hotspot user profile onLogin. ( onLogin Script )
+#### Step 2: Copy script below and paste to hotspot user profile onLogin. ( juanfi_hs_full_71a_onLogin.txt )
 ```bash
 # juanfi_hs_onLogin_71a_full
 # by: Chloe Renae & Edmar Lozada
@@ -321,7 +321,7 @@ if ($iMail~"new" || $iMail~"extend") do={
 
 ```
 
-#### Step 3: Copy script below and paste to hotspot user profile onLogout. ( onLogout Script )
+#### Step 3: Copy script below and paste to hotspot user profile onLogout. ( juanfi_hs_full_71a_onLogout.txt )
 ```bash
 # juanfi_hs_onLogout_71a_full
 # by: Chloe Renae & Edmar Lozada
