@@ -78,7 +78,7 @@ if ([/ip hotspot user find name=\$iUser]!=\"\") do={
   set iUseTime (\$aUser->\"uptime\")
 }
 if (\$iUsrTime<=\$iUseTime) do={ set iCExpire \"TimeLimit\" }
-if ([len \$iUsrTime]=0) do={ set iUsrTime \"nolimit\" }
+if ([len \$iUsrTime]=0) do={ set iUsrTime \"unli\" }
 log debug \"EXPIRE USER ( \$iCExpire ) => user=[\$iUser] mac=[\$iDMac] usertime=[\$iUsrTime] uptime=[\$iUseTime]\"
 /ip hotspot cookie remove [find user=\$iUser]
 /ip hotspot cookie remove [find mac-address=\$iDMac]
@@ -198,7 +198,7 @@ local eLogoutUser do={
 }
 # Cancel user-login if Invalid User eMail/Profile
 if (!($iMail~"new" || $iMail~"extend" || $iMail~"active")) do={
-  log error "( $iUser ) ONLOGIN ERROR: [$iMail] => INVALID EMAIL!"
+  log error "( $iUser ) ONLOGIN ERROR: /ip hotspot user email:[$iMail] => INVALID EMAIL!"
   /ip hotspot user set [find name=$iUser] disable=yes
   $eLogoutUser iUser=$iUser iDMac=$iDMac; return 0
 }
@@ -212,7 +212,7 @@ if ($iMail~"new" || $iMail~"extend") do={
   local iVendoNme ($aNote->3)
   # Cancel user-login if Invalid Comment
   if (!($iValidity>=0 && $iSalesAmt>=0 && ($iExtUCode=0 or $iExtUCode=1))) do={
-    log error "( $iUser ) ONLOGIN ERROR! comment:[$aNote] => INVALID COMMENT!"
+    log error "( $iUser ) ONLOGIN ERROR! /ip hotspot user comment:[$aNote] => INVALID COMMENT!"
     /ip hotspot user set [find name=$iUser] disable=yes
     $eLogoutUser iUser=$iUser iDMac=$iDMac; return 0
   }
@@ -246,7 +246,7 @@ if ($iMail~"new" || $iMail~"extend") do={
   }
   # Cancel user-login if user-scheduler NOT FOUND!
   if ([/system scheduler find name=$iUser]="") do={
-    log error "( $iUser ) ONLOGIN ERROR! /system scheduler [$iUser] => NOT FOUND!"
+    log error "( $iUser ) ONLOGIN ERROR! /system scheduler user:[$iUser] => NOT FOUND!"
     $eLogoutUser iUser=$iUser iDMac=$iDMac; return 0
   }
   } on-error={log error "( $iUser ) ONLOGIN ERROR! Add User Scheduler Module"}
@@ -254,7 +254,7 @@ if ($iMail~"new" || $iMail~"extend") do={
   # Update User Validity/Interval/Comment/eMail
   if ($iExtUCode=0) do={ set iExtUCode "ADDNEW USER" }
   if ($iExtUCode=1) do={ set iExtUCode "EXTEND USER" }
-  local xUsrTime $iUsrTime; if ([len $iUsrTime]=0) do={ set xUsrTime "nolimit" }
+  local xUsrTime $iUsrTime; if ([len $iUsrTime]=0) do={ set xUsrTime "unli" }
   log warning "$iExtUCode ( $interface ) => user=[$iUser] mac=[$iDMac] usertime=[$xUsrTime] amt=[$iSalesAmt]"
   set iValidity ($iValidity + [/system scheduler get [find name=$iUser] interval])
   # if ($iValidity = 0s and $iUsrTime > 1d) do={ set iValidity $iUsrTime }; # BUG FIX (temporary)
@@ -318,7 +318,7 @@ if ($iMail~"new" || $iMail~"extend") do={
 
   # User Comment Info
   /ip hotspot user  set [find name=$iUser] comment="+ end=[$iUsrEnd0] beg=[$iUsrBeg0] mac=[$iDMac] validity=[$iValidity] vlan=[ $interface ] amt=[$iSalesAmt]"
-  /system scheduler set [find name=$iUser] comment="+ ( $interface ) beg=[$iUsrBeg0] end=[$iUsrEnd0] mac=[$iDMac] usertime=[$iUsrTime] amt=[$iSalesAmt]"
+  /system scheduler set [find name=$iUser] comment="+ ( $interface ) beg=[$iUsrBeg0] end=[$iUsrEnd0] mac=[$iDMac] usertime=[$xUsrTime] amt=[$iSalesAmt]"
 }
 
 ```
