@@ -78,6 +78,7 @@ if ([/ip hotspot user find name=\$iUser]!=\"\") do={
   set iUseTime (\$aUser->\"uptime\")
 }
 if (\$iUsrTime<=\$iUseTime) do={ set iCExpire \"TimeLimit\" }
+if ([len \$iUsrTime]=0) do={ set iUsrTime \"nolimit\" }
 log debug \"EXPIRE USER ( \$iCExpire ) => user=[\$iUser] mac=[\$iDMac] usertime=[\$iUsrTime] uptime=[\$iUseTime]\"
 /ip hotspot cookie remove [find user=\$iUser]
 /ip hotspot cookie remove [find mac-address=\$iDMac]
