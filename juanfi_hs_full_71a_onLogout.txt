@@ -1,0 +1,26 @@
+# juanfi_hs_onLogout_71a_full
+# by: Chloe Renae & Edmar Lozada
+# ------------------------------
+
+# Expire User
+local iUser $username
+local aUser [/ip hotspot user get $iUser]
+local iUsrTime ($aUser->"limit-uptime")
+local iUseTime ($aUser->"uptime")
+
+# Check Expiration
+do {
+if ($cause="traffic limit reached" || ($iUsrTime>0 && $iUsrTime<=$iUseTime)) do={
+  local iDMac $"mac-address"
+  local iDInt $interface
+  local iHotSpot [/ip hotspot profile get [.. get [find interface=$iDInt] profile] html-directory]
+  local iMacFile ""
+  for i from=0 to=([len $iDMac]-1) do={
+    local x [pick $iDMac $i]
+    if ($x=":") do={set x ""}
+    set iMacFile ($iMacFile.$x)
+  }
+  local eUserExpire [parse [/system script get ss-1Fi-eUserExpire source]]
+  $eUserExpire $iUser $iDMac $iMacFile $iHotSpot
+}
+} on-error={log error "( $iUser ) ONLOGOUT ERROR! Expire User Module"}
