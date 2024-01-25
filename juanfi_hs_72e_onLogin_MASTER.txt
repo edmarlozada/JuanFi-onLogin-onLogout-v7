@@ -1,0 +1,160 @@
+# juanfi_hs_72e_onLogin_full
+# by: Chloe Renae & Edmar Lozada
+# ------------------------------
+
+loc iDebug 0
+loc isTelegram  0 ;# 0=disable or 1=enable
+loc iTGBotToken "xxxxxxxxxx:xxxxxxxxxxxxx-xxxxxxxxxxxxxxx-xxxxx" ;# Telegram Bot Token
+loc iTGrpChatID "xxxxxxxxxxxxxx" ;# Telegram Group Chat ID
+
+loc iUser $username
+loc iDMac $"mac-address"
+loc iDInt $interface
+loc aUser [/ip hotspot user get $iUser]
+loc iMail ($aUser->"email")
+loc iTime [/system clock get time]
+
+# Cancel user-login if Invalid User eMail/Profile
+if (!($iMail~"new" || $iMail~"extend" || $iMail~"active")) do={
+  log error "( $iUser ) ONLOGIN ERROR: email=[$iMail] => INVALID EMAIL!"
+  /ip hotspot user set [find name=$iUser] name="$iUser-$iTime" disable=yes
+  /ip hotspot active remove [find user=$iUser]; return 0
+}
+
+# Check Valid Entry
+if ($iMail~"new" || $iMail~"extend") do={
+  loc iProfile ($aUser->"profile")
+  loc iUsrTime ($aUser->"limit-uptime")
+  loc iComment ($aUser->"comment")
+  loc aNote    [toarray ($aUser->"comment")]
+  loc iValidty [totime ($aNote->0)]
+  loc iSaleAmt [tonum ($aNote->1)]
+  loc iExtCode ($aNote->2)
+  loc iVendTag ($aNote->3)
+  log warning "REGISTER-HS => user=[$username] ip=[$address] mac=[$"mac-address"] interface=[$interface] vendo=[$iVendTag]"
+
+  # Cancel user-login if Invalid Comment
+  if (!($iValidty>=0 && ($iExtCode=0 || $iExtCode=1))) do={
+    log error "( $iUser ) ONLOGIN ERROR! comment=[$aNote] => INVALID COMMENT!"
+    /ip hotspot user set [find name=$iUser] name="$iUser-$iTime" disable=yes
+    /ip hotspot active remove [find user=$iUser]; return 0
+  }
+
+  # External Functions Module
+  if ($iDebug=1) do={log info "# External Functions Module"}
+  global e1FiAddData; global e1FiAddSales
+  if ([len $e1FiAddData]=0 || [len $e1FiAddSales]=0) do={
+    execute [/system scheduler get [find name="<eStartup-JuanFi>"] on-event]
+  }
+  global eLibReplace; global eLibFmtDate; global eLibFmtAMPM; global eLibTime2DT; global eLibGetDate
+  if ([len $eLibReplace]=0 || [len $eLibFmtDate]=0 || [len $eLibFmtAMPM]=0 || [len $eLibTime2DT]=0 || [len $eLibGetDate]=0) do={
+    execute [/system scheduler get [find name="<eStartup-Library>"] on-event]
+  }
+
+  # More Variables Module
+  if ($iDebug=1) do={log info "# More Variables Module"}
+  loc iMacFile [$eLibReplace $iDMac ":" ""]
+  loc iHotSpot [/ip hotspot profile get [.. get [find interface=$iDInt] profile] html-directory]
+  loc iDevName "-none-"; do {set iDevName [/ip dhcp-server lease get [find mac-address=$iDMac] host-name]} on-error={}
+
+  # User Scheduler Module
+  if ($iDebug=1) do={log info "# User Scheduler Module"}
+  do {
+  if ([/system scheduler find name=$iUser]="") do={
+    /system scheduler add name=$iUser interval=0 \
+     on-event=("# EXPIRE ( $iProfile ) #\r\n".\
+               "loc iUser \"$iUser\"; loc iDMac \"$iDMac\"\r\n".\
+               "loc iMacFile \"$iMacFile\"; loc iHotSpot \"$iHotSpot\"\r\n".\
+               "do {\r\n".\
+               "loc eExpire [parse [/system script get ss-1Fi-Expire source]]\r\n".\
+               "\$eExpire \$iUser \$iDMac \$iMacFile \$iHotSpot \"Validity\"\r\n".\
+               "} on-error={log error \"( \$iUser ) SYSHED ERROR! Expire User Module\"}\r\n".\
+               "# END #\r\n")
+    loc x 10;while (($x>0)&&([/system scheduler find name=$iUser]="")) do={set x ($x-1);delay 1s}
+    set iExtCode 0
+  }
+  } on-error={log error "( $iUser ) ONLOGIN ERROR! User Scheduler Module"}
+
+  # Cancel user-login if user-scheduler NOT FOUND!
+  if ([/system scheduler find name=$iUser]="") do={
+    log error "( $iUser ) ONLOGIN ERROR! user=[$iUser] => SCHEDULER NOT CREATED!"
+    /ip hotspot active remove [find user=$iUser]; return 0
+  }
+
+  # User Log/Validity/Interval/Comment/eMail/BugFix Module
+  if ($iDebug=1) do={log info "# User Log/Validity/Interval/Comment/eMail/BugFix Module"}
+  if ($iExtCode=0) do={ set iExtCode "ADDNEW" }
+  if ($iExtCode=1) do={ set iExtCode "EXTEND" }
+  set iValidty ($iValidty + [/system scheduler get [find name=$iUser] interval])
+  if ($iValidty!=0s && $iValidty<$iUsrTime) do={ set iValidty ($iUsrTime+10s) }; #BugFix ( Validity < UserTime )
+  if ($iValidty!=0s && $iValidty=$iUsrTime) do={ set iValidty ($iValidty+10s) }; #BugFix ( Validity = UserTime )
+  loc cUserTime [$eLibTime2DT $iUsrTime]; if ([len $iUsrTime]=0) do={ set cUserTime "NO-LIMIT" }
+  loc cValidity [$eLibTime2DT $iValidty]; if ($iValidty=0s) do={ set cValidity "NO-EXPIRY" }
+  /system scheduler set [find name=$iUser] interval=$iValidty
+  /ip hotspot user set [find name=$iUser] comment=""
+  /ip hotspot user set [find name=$iUser] email="$iSaleAmt@$iMacFile.active.$interface"
+  log debug "( $iUser ) $iExtCode => usertime=[$cUserTime] validity=[$cValidity] amt=[$iSaleAmt] interface=[$interface] comment=[$iComment]"
+
+  # User Date/Time Variables Module
+  if ($iDebug=1) do={log info "# Set User Date/Time Variables Module"}
+  loc iDateBeg [/system scheduler get [find name=$iUser] start-date]
+  loc iTimeBeg [/system scheduler get [find name=$iUser] start-time]
+  loc iUserBeg ([$eLibFmtDate $iDateBeg]." ".[pick $iTimeBeg 0 5])
+  loc iUsrBeg1 ([$eLibFmtDate $iDateBeg]." ".[$eLibFmtAMPM $iTimeBeg])
+  loc iUsrBeg2 ([$eLibFmtDate $iDateBeg 2]." ".[$eLibFmtAMPM $iTimeBeg])
+  loc iNextRun [/system scheduler get [find name=$iUser] next-run]
+  loc iDateEnd [$eLibGetDate "D" $iNextRun]
+  loc iTimeEnd [$eLibGetDate "T" $iNextRun]
+  loc iUserEnd "NO EXPIRATION"; loc iUsrEnd1 $iUserEnd; loc iUsrEnd2 $iUserEnd
+  if ([len $iNextRun]>1) do={
+    set iUserEnd ([$eLibFmtDate $iDateEnd]." ".[pick $iTimeEnd 0 5])
+    set iUsrEnd1 ([$eLibFmtDate $iDateEnd]." ".[$eLibFmtAMPM $iTimeEnd])
+    set iUsrEnd2 ([$eLibFmtDate $iDateEnd 2]." ".[$eLibFmtAMPM $iTimeEnd])
+  }
+  log debug "( $iUser ) beg=[$iUsrBeg1] end=[$iUsrEnd1] vendo=[$iVendTag] device=[$iDevName]"
+
+  # User Data File Module
+  if ($iDebug=1) do={log info "# Add User Data File Module"}
+  $e1FiAddData $iUser $iMacFile $iUsrEnd2 $iHotSpot
+  if ($iUser!=$iMacFile) do={ $e1FiAddData $iUser $iUser $iUsrEnd2 $iHotSpot }
+
+  # Update Sales ( Today/Month ) Module
+  if ($iDebug=1) do={log info "# Update Sales ( Today/Month ) Module"}
+  loc iSalesToday [$e1FiAddSales $iUser $iSaleAmt "todayincome"   "JuanFi Sales Today ( TOTAL )"]
+  loc iSalesMonth [$e1FiAddSales $iUser $iSaleAmt "monthlyincome" "JuanFi Sales Month ( TOTAL )"]
+
+  # Telegram Sending Module
+  if ($iDebug=1) do={log info "# Telegram Sending Module"}
+  do {
+  if ($isTelegram=1) do={
+    set iDevName [pick $iDevName 0 15]
+    loc iUActive [/ip hotspot active print count-only]
+    loc iMessage ("<<===[ $iExtCode ]===>>%0A".\
+                  "User: $iUser%0A".\
+                  "IP: $address%0A".\
+                  "MAC: $iDMac%0A".\
+                  "Device: $iDevName%0A".\
+                  "Active Users: $iUActive%0A%0A".\
+                  "Vendo Name : $iVendTag%0A".\
+                  "User Time  : $cUserTime%0A".\
+                  "Beg: $iUsrBeg2%0A".\
+                  "End: $iUsrEnd2%0A".\
+                  "Sale Amount: $iSaleAmt%0A".\
+                  "Sales Total (Today): $iSalesToday%0A".\
+                  "Sales Total (Month): $iSalesMonth%0A".\
+                  "<<=====================>>")
+    loc iMessage [$eLibReplace ($iMessage) " " "%20"]
+    loc iURL ("https://"."api.telegram.org/bot$iTGBotToken/sendmessage?chat_id=$iTGrpChatID&text=$iMessage")
+    do {/tool fetch url=$iURL keep-result=no} on-error={log info "( $iUser ) TELEGRAM ERROR! Telegram Sending Failed"}
+  }
+  } on-error={log error "( $iUser ) ONLOGIN ERROR! Telegram Sending Module"}
+
+  # User Comment Info Module
+  if ($iDebug=1) do={log info "# User Comment Info Module"}
+  do {
+  /ip hotspot user  set [find name=$iUser] comment="+ beg=[$iUserBeg] end=[$iUserEnd] mac=[$iDMac] vlan=[$interface] validity=[$cValidity] amt=[$iSaleAmt]"
+  /system scheduler set [find name=$iUser] comment="+ end=[$iUserEnd] beg=[$iUserBeg] mac=[$iDMac] vlan=[$interface] usertime=[$cUserTime] amt=[$iSaleAmt]"
+  } on-error={log error "( $iUser ) ONLOGIN ERROR! User Comment Info  Module"}
+
+  if ($iDebug=1) do={log info "# ONLOGIN END #"}
+}
