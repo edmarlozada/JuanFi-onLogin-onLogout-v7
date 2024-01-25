@@ -113,7 +113,7 @@ if ($iMail~"new" || $iMail~"extend") do={
   }
   log debug "( $iUser ) beg=[$iUsrBeg1] end=[$iUsrEnd1] vendo=[$iVendTag] device=[$iDevName]"
 
-  # User Data File Module
+  # Add User Data File Module
   if ($iDebug=1) do={log info "# Add User Data File Module"}
   $e1FiAddData $iUser $iMacFile $iUsrEnd2 $iHotSpot
   if ($iUser!=$iMacFile) do={ $e1FiAddData $iUser $iUser $iUsrEnd2 $iHotSpot }
